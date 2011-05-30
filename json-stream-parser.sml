@@ -80,7 +80,6 @@ structure JSONStreamParser : sig
 				| _ => error (cb, ctx, "error parsing array")
 			      (* end case *)
 			    end
-		      val ctx = #startArray cb ctx
 		      val (strm, ctx) = loop (strm, #startArray cb ctx)
 		      in
 			(strm, #endArray cb ctx)
