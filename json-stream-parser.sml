@@ -115,8 +115,16 @@ structure JSONStreamParser : sig
 		in
 		  loop (strm, ctx)
 		end
-	  in
-	    #2 (parseValue (Lex.streamifyInstream inStrm, ctx))
+          val strm = Lex.streamifyInstream inStrm
+          val (tok1,pos,strm) = lexer strm
+          val ctx = (ctx,smap,pos)
+	  val (_, finalctx) =
+             case tok1 of
+               T.LB => parseArray (strm, #startArray cb ctx)
+             | T.LCB => parseObject (strm, #startObject cb ctx)
+             | _ => error(cb, ctx, "JSON file must contain an array or object")
+          in
+             finalctx
 	  end
 
     fun parse cb = let
