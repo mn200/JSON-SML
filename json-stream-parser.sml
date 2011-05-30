@@ -107,7 +107,6 @@ structure JSONStreamParser : sig
 			  | _ => error (cb, ctx, "error parsing object")
 			(* end case *)
 		      end
-		val ctx = #startObject cb ctx
 		val (strm, ctx) = loop (strm, #startObject cb ctx)
 		in
 		  (strm, #endObject cb ctx)
